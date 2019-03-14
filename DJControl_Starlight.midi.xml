@@ -4,7 +4,8 @@
 		<name>DJControl Starlight</name>
 		<author>DJ Phatso for Hercules Technical Support</author>
 		<description>MIDI Preset for Hercules DJControl Starlight</description>
-		<!--<forums></forums>-->
+		<wiki>https://mixxx.org/wiki/doku.php/hercules_dj_control_starlight</wiki>
+		<forums>https://mixxx.org/forums/viewtopic.php?f=7&amp;t=12570</forums>
 	</info>
 	<controller id="DJControl Starlight">
 		<scriptfiles>
@@ -163,18 +164,6 @@
 			</control>
 
 
-
-			<!-- //Vinyl button
-				<control>
-					<group>[Master]</group>
-					<key>DJCStarlight.vinylButton</key>
-					<description>Vinyl</description>
-					<status>0x92</status>
-					<midino>0x03</midino>
-					<options>
-					<script-binding />
-					</options>
-				</control> -->
 
 		//Jog Touch B
 			<control>
