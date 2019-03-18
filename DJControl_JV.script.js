@@ -2,12 +2,20 @@
 //
 // ****************************************************************************
 // * Mixxx mapping script file for the Hercules DJControl Jogvision.
-// * Author: DJ Phatso
-// * Version 1.0 (March 2019)
-// * Forum: http://www.mixxx.org/forums/
-// * Wiki: http://www.mixxx.org/wiki/
+// * Author: DJ Phatso, contributions by Kerrick Staley
+// * Version 1.1 (March 2019)
+// * Forum: https://www.mixxx.org/forums/viewtopic.php?f=7&t=12580
+// * Wiki: https://www.mixxx.org/wiki/doku.php/hercules_dj_control_jogvision
 
-//TODO: Functions that could be implemented to the script:
+
+// Changes to v1.1
+// - Controller knob/slider values are queried on startup, so MIXXX is synced.
+// - Fixed vinyl button behavior the first time it's pressed.
+//
+// v1.0 : Original release
+
+
+// TODO: Functions that could be implemented to the script:
 //	- Jogwheel Outer LED : To be maped to ????
 //	- Beats LED
 //	  
@@ -16,7 +24,7 @@
 function DJCJV() {}
 var DJCJV = {};
 
-DJCJV.scratchButtonState = [true]
+DJCJV.scratchButtonState = true;
 
 
 //Vu Meter
@@ -104,6 +112,9 @@ DJCJV.init = function() {
 	engine.setParameter("[QuickEffectRack1_[Channel1]]","super1", 0.5);
 	engine.setParameter("[QuickEffectRack1_[Channel2]]","super1", 0.5);
 	
+	// Ask the controller to send all current knob/slider values over MIDI, which will update
+    // the corresponding GUI controls in MIXXX.
+    midi.sendShortMsg(0xB0, 0x7F, 0x7F);
 	
 };
 
@@ -167,13 +178,11 @@ DJCJV.loopsizeDB = function(channel, control, value, status, group){
 // The Vinyl button, used to enable or disable scratching on the jog wheels.
 DJCJV.vinylButtonA = function(channel, control, value, status, group) {
     if (value) {
-        if (DJCJV.scratchEnabled) {
-            DJCJV.scratchEnabled = false;
+        if (DJCJV.scratchButtonState) {
 			DJCJV.scratchButtonState = false;
             midi.sendShortMsg(0x90, 0x46, 0x00);
 
         } else {
-            DJCJV.scratchEnabled = true;
 			DJCJV.scratchButtonState = true;
             midi.sendShortMsg(0x90, 0x46, 0x7F);
         }
